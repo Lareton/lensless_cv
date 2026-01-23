@@ -13,9 +13,11 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**week01**](./week01) Introduction to Course. Deep Learning Basics
   - Lecture: Introduction to Course and Deep Learning
   - Seminar: Introduction to `pytorch`
-
-<!--
--->
+- [**week02**](./week02) FC, CNN, and ResNet
+  - Lecture: Fully-Connected Layers, Convolution, ResNet, Fine-Tuning
+  - Seminar: Creating and training models in `pytorch`.
+  <!--
+  -->
 
 # Homeworks and Projects
 
@@ -29,7 +31,7 @@ See our [project template](https://github.com/Blinorot/pytorch_project_template)
 
 # Resources
 
-- [Lecture recordings on YouTube (in russian)](TBA)
+- [Lecture recordings on YouTube (in russian)](https://youtube.com/playlist?list=PL43p_a9g8_aKsnsXPN_TfpKOBOZxHULxb)
 
 Some of the weeks have English recordings. See the corresponding sub-directories.
 

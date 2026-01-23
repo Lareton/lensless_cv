@@ -2,6 +2,6 @@
 
 - [Lecture slides](https://docs.google.com/presentation/d/1SZIJo_s3KVYymVPBmnfmV0L_jwWjw2yMyILE1CPng7g/edit?usp=sharing)
 - [Seminar](Seminar.ipynb)
-- [Recording on YouTube (in Russian)](TBA)
+- [Recording on YouTube (in Russian)](https://youtu.be/LfZC_N47Fu4)
 
 This week also has a [recording](https://youtu.be/Ean-AIpk-8k) in English from the [LauzHack Deep Learning Bootcamp](https://github.com/LauzHack/deep-learning-bootcamp/).
