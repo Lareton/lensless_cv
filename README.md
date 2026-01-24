@@ -21,8 +21,8 @@ The course covers introductory and advanced deep learning techniques with a rese
 
 # Homeworks and Projects
 
+- [**HW_Basics**](./hw01) `PyTorch` basics, Fine-Tuning, and Ablation Studies.
 <!--
-- [**HW_ASR**](./hw1_asr) Training a speech recognition model
 - [**Project_AVSS**](./project_avss) Training an audio-visual speech separation model
 - [**HW_NV**](./hw3_nv) Implementation of a TTS model (Neural Vocoder)
   -->
