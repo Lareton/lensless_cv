@@ -16,6 +16,9 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**week02**](./week02) FC, CNN, and ResNet
   - Lecture: Fully-Connected Layers, Convolution, ResNet, Fine-Tuning
   - Seminar: Creating and training models in `pytorch`.
+- [**week03**](./week03) RNN, Normalization, and Dropout
+  - Lecture: RNN (+LSTM, GRU), BatchNorm/LayerNorm/Dropout
+  - Seminar: Implementation of `SketchRNN`.
   <!--
   -->
 
