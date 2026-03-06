@@ -15,18 +15,24 @@ The course covers introductory and advanced deep learning techniques with a rese
   - Seminar: Introduction to `pytorch`
 - [**week02**](./week02) FC, CNN, and ResNet
   - Lecture: Fully-Connected Layers, Convolution, ResNet, Fine-Tuning
-  - Seminar: Creating and training models in `pytorch`.
+  - Seminar: Creating and training models in `pytorch`
 - [**week03**](./week03) RNN, Normalization, and Dropout
   - Lecture: RNN (+LSTM, GRU), BatchNorm/LayerNorm/Dropout
-  - Seminar: Implementation of `SketchRNN`.
+  - Seminar: Implementation of `SketchRNN`
+- [**week04**](./week04) Introduction to NLP and Transformer
+  - Lecture: NLP Basics, Tokenization, Embeddings, Transformer
+  - Seminar: Implementation of `Transformer`. `HuggingFace` basics
+- [**week05**](./week05) Large Language Models
+  - Lecture: Core techniques related to Large Language Models
+  - Seminar: `HuggingFace` basics. vLLM and OpenAI clients
   <!--
   -->
 
 # Homeworks and Projects
 
 - [**HW_Basics**](./hw01) `PyTorch` basics, Fine-Tuning, and Ablation Studies.
+- [**HW_NLP**](./hw02) Machine Translation, Text Deepfake Detection, HuggingFace.
 <!--
-- [**Project_AVSS**](./project_avss) Training an audio-visual speech separation model
 - [**HW_NV**](./hw3_nv) Implementation of a TTS model (Neural Vocoder)
   -->
 
