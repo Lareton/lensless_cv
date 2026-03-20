@@ -25,6 +25,11 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**week05**](./week05) Large Language Models
   - Lecture: Core techniques related to Large Language Models
   - Seminar: `HuggingFace` basics. vLLM and OpenAI clients
+- [**week06**](./week06) Deep Learning for Audio
+  - Lecture: Tasks Overview, Signal Processing Basics, Automatic Speech Recognition
+  - Seminar: Keyword Spotting Implementation, AudioBot (ASR + LLM + TTS)
+- [**week07**](./week07) AutoEncoders
+  - Lecture: AutoEncoders, VAE, VQ-VAE, Text-To-Image, Text-To-Audio
   <!--
   -->
 
