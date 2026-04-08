@@ -30,6 +30,12 @@ The course covers introductory and advanced deep learning techniques with a rese
   - Seminar: Keyword Spotting Implementation, AudioBot (ASR + LLM + TTS)
 - [**week07**](./week07) AutoEncoders
   - Lecture: AutoEncoders, VAE, VQ-VAE, Text-To-Image, Text-To-Audio
+- [**week08**](./week08) Diffusion
+  - Lecture: Denoising Score Matching, SDE, DDPM, DiT, UNet, Image/Audio Generation
+  - Seminar: `Diffusers` basics.
+- [**week09**](./week09) Generative Adversarial Networks (GANs)
+  - Lecture: Vanilla GAN, LSGAN, WGAN, cGAN, Applications
+  - Seminar: Implementation of GAN
   <!--
   -->
 
