@@ -44,8 +44,8 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**HW_Basics**](./hw01) `PyTorch` basics, Fine-Tuning, and Ablation Studies.
 - [**HW_NLP**](./hw02) Machine Translation, Text Deepfake Detection, HuggingFace.
 - [**HW_Diffusion**](./hw03) Diffusion and Super-Resolution.
+- [**HW_NAC**](./hw04) Implementation of a Neural Audio Codec.
 <!--
-- [**HW_NV**](./hw3_nv) Implementation of a TTS model (Neural Vocoder)
   -->
 
 See our [project template](https://github.com/Blinorot/pytorch_project_template).
