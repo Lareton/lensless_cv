@@ -36,6 +36,13 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**week09**](./week09) Generative Adversarial Networks (GANs)
   - Lecture: Vanilla GAN, LSGAN, WGAN, cGAN, Applications
   - Seminar: Implementation of GAN
+- [**week10**](./week10) Explainable AI (XAI)
+  - Lecture: Intrinsic vs Post-Hoc, Classical vs Trainable Methods, Metrics and Comparison
+  - Seminar: SHAP, Grad-CAM, Transformer-XAI
+- [**week11**](./week11) Creating convenient DL pipelines and clean code
+  - Lecture: Logging, Configuration, Reproducibility, Project-style coding
+- [**week12**](./week12) Multimodal Deep Learning
+  - Lecture: Impact of Modality, Modality Fusion, Audiovisual Models, Multimodal LLMs
   <!--
   -->
 
