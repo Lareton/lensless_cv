@@ -43,6 +43,8 @@ The course covers introductory and advanced deep learning techniques with a rese
   - Lecture: Logging, Configuration, Reproducibility, Project-style coding
 - [**week12**](./week12) Multimodal Deep Learning
   - Lecture: Impact of Modality, Modality Fusion, Audiovisual Models, Multimodal LLMs
+- [**week13**](./week13) Physics-Informed Neural Networks and Lensless Computational Imaging
+  - Lecture: PINNs basics, Lensless Computational Imaging basics, LenslessMic (Audio)
   <!--
   -->
 
@@ -51,7 +53,8 @@ The course covers introductory and advanced deep learning techniques with a rese
 - [**HW_Basics**](./hw01) `PyTorch` basics, Fine-Tuning, and Ablation Studies.
 - [**HW_NLP**](./hw02) Machine Translation, Text Deepfake Detection, HuggingFace.
 - [**HW_Diffusion**](./hw03) Diffusion and Super-Resolution.
-- [**HW_NAC**](./hw04) Implementation of a Neural Audio Codec.
+- [**HW_NAC**](./hw04) Neural Audio Codecs.
+- [**HW_Lensless**](./hw05) Lensless Computational Imaging.
 <!--
   -->
 
