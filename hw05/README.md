@@ -156,7 +156,7 @@ For comparison, also calculate reconstruction speed for all methods (code for do
 ## Grade
 
 ```
-grade = 0.6 * Metrics + 0.4 * (quality of code and report)
+grade = 0.6 * Metrics + 0.4 * (quality of code and report) - penalties
 ```
 
 `Metrics` is based on [PSNR](https://lightning.ai/docs/torchmetrics/stable/image/peak_signal_noise_ratio.html). Calculated using your top model.
