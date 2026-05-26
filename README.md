@@ -45,6 +45,8 @@ The course covers introductory and advanced deep learning techniques with a rese
   - Lecture: Impact of Modality, Modality Fusion, Audiovisual Models, Multimodal LLMs
 - [**week13**](./week13) Physics-Informed Neural Networks and Lensless Computational Imaging
   - Lecture: PINNs basics, Lensless Computational Imaging basics, LenslessMic (Audio)
+- [**week14**](./week14) Academic Writing, Presentations, and Talks with AI Focus
+  - Lecture: Academic Writing, How to Make Presentations and Give Talks
   <!--
   -->
 
