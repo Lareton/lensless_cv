@@ -47,6 +47,9 @@ The course covers introductory and advanced deep learning techniques with a rese
   - Lecture: PINNs basics, Lensless Computational Imaging basics, LenslessMic (Audio)
 - [**week14**](./week14) Academic Writing, Presentations, and Talks with AI Focus
   - Lecture: Academic Writing, How to Make Presentations and Give Talks
+- [**week15**](./week15) TinyML Basics
+  - Lecture: Architecture Modification, Pruning, Distillation, Quantization.
+  - Seminar: Libraries for Pruning and Quantization. AMP.
   <!--
   -->
 
