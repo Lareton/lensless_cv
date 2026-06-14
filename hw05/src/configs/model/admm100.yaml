@@ -1,0 +1,7 @@
+_target_: src.model.ADMM
+iterations: 100
+mu: [1.0e-4, 1.0e-4, 1.0e-4]
+tau: 2.0e-4
+trainable: false
+work_scale: 2
+return_history: false

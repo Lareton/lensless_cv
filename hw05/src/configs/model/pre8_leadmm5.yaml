@@ -1,0 +1,12 @@
+_target_: src.model.ModularADMM
+
+preprocessor:
+  channels: [32, 64, 128, 256]
+
+inversion:
+  iterations: 5
+  mu: [1.0e-4, 1.0e-4, 1.0e-4]
+  tau: 2.0e-4
+  trainable: true
+
+postprocessor: null

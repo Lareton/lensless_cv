@@ -129,3 +129,9 @@ dmypy.json
 .pyre/
 
 .DS_Store
+hw05/data/
+hw05/outputs/
+hw05/multirun/
+hw05/saved/
+hw05/tests/
+hw05/wandb/
