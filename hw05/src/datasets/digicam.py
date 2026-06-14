@@ -13,6 +13,7 @@ class DigiCamDataset(Dataset):
         download_if_missing=False,
         save_psf=True,
         psf_cache_dir=None,
+        offset=0,
         limit=None,
         repo_id=REPO_ID,
     ):
@@ -24,9 +25,13 @@ class DigiCamDataset(Dataset):
         files = [str(path) for path in split_files(self.root, split)]
         self.dataset = load_dataset("parquet", data_files={split: files}, split=split)
 
-        if limit is not None:
-            limit = min(limit, len(self.dataset))
-            self.dataset = self.dataset.select(range(limit))
+        end = (
+            len(self.dataset)
+            if limit is None
+            else min(offset + limit, len(self.dataset))
+        )
+        self.indices = range(offset, end)
+        self.dataset = self.dataset.select(self.indices)
 
         cache_dir = psf_cache_dir or self.root / "psf"
         self.psf_store = PSFStore(self.root / "masks", cache_dir, save_psf)
@@ -45,5 +50,5 @@ class DigiCamDataset(Dataset):
             "target_roi": crop_roi(target),
             "psf": self.psf_store(item["mask_label"]),
             "mask_label": item["mask_label"],
-            "image_id": f"{self.split}_{index:05d}",
+            "image_id": f"{self.split}_{self.indices[index]:05d}",
         }

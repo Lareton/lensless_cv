@@ -9,8 +9,10 @@ class CometLogger:
         workspace=None,
         experiment_name=None,
         enabled=True,
+        log_checkpoints=True,
     ):
         self.experiment = None
+        self.log_checkpoints = log_checkpoints
         if not enabled:
             return
 
@@ -48,6 +50,10 @@ class CometLogger:
                 name=path.stem,
                 step=step,
             )
+
+    def log_checkpoint(self, path):
+        if self.experiment is not None and self.log_checkpoints:
+            self.experiment.log_model(path.stem, str(path), overwrite=True)
 
     def end(self):
         if self.experiment is not None:

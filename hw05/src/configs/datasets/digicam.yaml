@@ -4,12 +4,14 @@ train:
   data_dir: data/digicam
   download_if_missing: false
   save_psf: true
-  limit: null
+  offset: 0
+  limit: 100
 
-test:
+validation:
   _target_: src.datasets.DigiCamDataset
-  split: test
+  split: train
   data_dir: data/digicam
   download_if_missing: false
   save_psf: true
-  limit: null
+  offset: 100
+  limit: 100

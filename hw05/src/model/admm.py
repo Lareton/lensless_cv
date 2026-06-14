@@ -2,6 +2,7 @@ from collections import namedtuple
 
 import torch
 from torch import nn
+from torch.utils.checkpoint import checkpoint
 
 from src.model.operators import (
     convolve_adjoint_fft,
@@ -51,8 +52,19 @@ def init_admm_state(measurement, work_shape):
 class FixedADMMIteration(nn.Module):
     def __init__(self, mu=(1e-4, 1e-4, 1e-4), tau=2e-4):
         super().__init__()
-        self.register_buffer("mu", torch.tensor(mu))
-        self.register_buffer("tau", torch.tensor(tau))
+        self.register_buffer("_mu", torch.tensor(mu))
+        self.register_buffer("_tau", torch.tensor(tau))
+
+    @property
+    def mu(self):
+        return self._mu
+
+    @property
+    def tau(self):
+        return self._tau
+
+    def threshold(self, mu2):
+        return self.tau / mu2
 
     def forward(
         self,
@@ -64,7 +76,6 @@ class FixedADMMIteration(nn.Module):
         denominator=None,
     ):
         mu1, mu2, mu3 = self.mu.to(state.x)
-        tau = self.tau.to(state.x)
         sensor_shape = measurement.shape[-2:]
         work_shape = state.x.shape[-2:]
 
@@ -80,7 +91,10 @@ class FixedADMMIteration(nn.Module):
             )
 
         gradient = finite_difference(state.x)
-        u = soft_threshold(gradient + state.dual_u / mu2, tau / mu2)
+        u = soft_threshold(
+            gradient + state.dual_u / mu2,
+            self.threshold(mu2).to(state.x),
+        )
 
         hx = convolve_fft(state.x, psf_fft)
         v = (state.dual_v + mu1 * hx + padded_measurement) / (mu1 + mask)
@@ -109,6 +123,26 @@ class FixedADMMIteration(nn.Module):
             dual_u=dual_u,
             dual_w=dual_w,
         )
+
+
+class TrainableADMMIteration(FixedADMMIteration):
+    def __init__(self, mu=(1e-4, 1e-4, 1e-4), tau=2e-4):
+        super().__init__(mu, tau)
+        del self._mu
+        del self._tau
+        self.log_mu = nn.Parameter(torch.tensor(mu).log())
+        self.log_tau = nn.Parameter(torch.tensor(float(tau)).log())
+
+    @property
+    def mu(self):
+        return self.log_mu.exp()
+
+    @property
+    def tau(self):
+        return self.log_tau.exp()
+
+    def threshold(self, mu2):
+        return self.tau
 
 
 class ADMM(nn.Module):
@@ -170,6 +204,91 @@ class ADMM(nn.Module):
             output["data_fidelity"] = torch.stack(history)
 
         return output
+
+
+class LeADMM(nn.Module):
+    def __init__(
+        self,
+        iterations=20,
+        mu=(1e-4, 1e-4, 1e-4),
+        tau=2e-4,
+        work_scale=2,
+        gradient_checkpointing=True,
+    ):
+        super().__init__()
+        if iterations < 1:
+            raise ValueError("iterations must be positive")
+        if any(value <= 0 for value in mu) or tau <= 0:
+            raise ValueError("ADMM parameters must be positive")
+
+        self.iterations = iterations
+        self.work_scale = work_scale
+        self.gradient_checkpointing = gradient_checkpointing
+        self.steps = nn.ModuleList(
+            TrainableADMMIteration(mu, tau) for _ in range(iterations)
+        )
+
+    def forward(self, lensless, psf, **batch):
+        sensor_shape = lensless.shape[-2:]
+        work_shape = fft_shape(sensor_shape, self.work_scale)
+        psf_fft = prepare_psf(psf, work_shape)
+        state = init_admm_state(lensless, work_shape)
+        padded_measurement = sensor_adjoint(lensless, work_shape)
+        mask = sensor_mask(sensor_shape, work_shape, state.x)
+
+        for step in self.steps:
+            if self.training and self.gradient_checkpointing:
+                state = self._checkpoint_step(
+                    step,
+                    lensless,
+                    psf_fft,
+                    state,
+                    padded_measurement,
+                    mask,
+                )
+            else:
+                state = step(
+                    lensless,
+                    psf_fft,
+                    state,
+                    padded_measurement,
+                    mask,
+                )
+
+        reconstruction = sensor_crop(state.x, sensor_shape).clamp(0, 1)
+        return {"reconstruction": reconstruction}
+
+    @staticmethod
+    def _checkpoint_step(
+        step,
+        measurement,
+        psf_fft,
+        state,
+        padded_measurement,
+        mask,
+    ):
+        def run(*values):
+            current = ADMMState(*values)
+            return step(
+                measurement,
+                psf_fft,
+                current,
+                padded_measurement,
+                mask,
+            )
+
+        return checkpoint(run, *state, use_reentrant=False)
+
+    def parameters_by_iteration(self):
+        return [
+            {
+                "mu1": step.mu[0].item(),
+                "mu2": step.mu[1].item(),
+                "mu3": step.mu[2].item(),
+                "tau": step.tau.item(),
+            }
+            for step in self.steps
+        ]
 
 
 def data_fidelity(measurement, reconstruction, psf_fft):

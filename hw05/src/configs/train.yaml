@@ -17,8 +17,12 @@ optimizer:
 
 trainer:
   epochs: 25
-  amp: true
-  grad_clip: null
-  log_step: 50
-  save_dir: saved
+  amp: false
+  grad_clip: 1.0
+  accumulation_steps: 4
+  log_step: 20
+  max_train_batches: null
+  validation_batches: 100
+  qualitative_count: 4
+  save_dir: saved/leadmm20
   resume_from: null

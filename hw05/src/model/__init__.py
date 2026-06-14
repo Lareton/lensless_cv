@@ -2,6 +2,8 @@ from src.model.admm import (
     ADMM,
     ADMMState,
     FixedADMMIteration,
+    LeADMM,
+    TrainableADMMIteration,
     data_fidelity,
     init_admm_state,
 )

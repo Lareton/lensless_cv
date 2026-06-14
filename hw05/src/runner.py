@@ -19,12 +19,27 @@ def set_seed(seed):
 def run_train(config):
     logger = build_logger(config)
     logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+
+    from src.datasets import build_dataloaders
+    from src.trainer import build_trainer
+
     set_seed(config.seed)
     print(OmegaConf.to_yaml(config, resolve=True))
-    logger.end()
+    device = get_device(config.device)
+    model = build_model(config.model, None, device)
+    dataloaders = build_dataloaders(config)
+    trainer = build_trainer(config, model, dataloaders, logger, device)
+
+    try:
+        trainer.fit()
+    finally:
+        logger.end()
 
 
 def run_inference(config):
+    logger = build_logger(config)
+    logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+
     import numpy as np
     import torch
     from PIL import Image
@@ -34,8 +49,6 @@ def run_inference(config):
     from src.metrics import ImageMetricTracker
     from src.utils.images import save_qualitative_grid
 
-    logger = build_logger(config)
-    logger.log_parameters(OmegaConf.to_container(config, resolve=True))
     set_seed(config.seed)
     device = get_device(config.device)
     model = build_model(config.model, config.checkpoint, device)
@@ -95,10 +108,11 @@ def run_inference(config):
 
 
 def run_metrics(config):
-    from src.metrics import evaluate_directories
-
     logger = build_logger(config)
     logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+
+    from src.metrics import evaluate_directories
+
     device = get_device(config.device)
     result = evaluate_directories(
         config.ground_truth_dir,
@@ -112,12 +126,13 @@ def run_metrics(config):
 
 
 def run_benchmark(config):
+    logger = build_logger(config)
+    logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+
     import torch
 
     from src.datasets import build_dataloaders
 
-    logger = build_logger(config)
-    logger.log_parameters(OmegaConf.to_container(config, resolve=True))
     set_seed(config.seed)
     device = get_device(config.device)
     model = build_model(config.model, config.checkpoint, device)

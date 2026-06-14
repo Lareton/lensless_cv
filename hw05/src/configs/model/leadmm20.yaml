@@ -1,5 +1,6 @@
-_target_: src.model.ADMM
+_target_: src.model.LeADMM
 iterations: 20
 mu: [1.0e-4, 1.0e-4, 1.0e-4]
 tau: 2.0e-4
-trainable: true
+work_scale: 2
+gradient_checkpointing: true
