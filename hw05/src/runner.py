@@ -17,9 +17,9 @@ def set_seed(seed):
 
 
 def run_train(config):
-    set_seed(config.seed)
     logger = build_logger(config)
     logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+    set_seed(config.seed)
     print(OmegaConf.to_yaml(config, resolve=True))
     logger.end()
 
@@ -34,9 +34,9 @@ def run_inference(config):
     from src.metrics import ImageMetricTracker
     from src.utils.images import save_qualitative_grid
 
-    set_seed(config.seed)
     logger = build_logger(config)
     logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+    set_seed(config.seed)
     device = get_device(config.device)
     model = build_model(config.model, config.checkpoint, device)
     dataloaders = build_dataloaders(config)
@@ -116,9 +116,9 @@ def run_benchmark(config):
 
     from src.datasets import build_dataloaders
 
-    set_seed(config.seed)
     logger = build_logger(config)
     logger.log_parameters(OmegaConf.to_container(config, resolve=True))
+    set_seed(config.seed)
     device = get_device(config.device)
     model = build_model(config.model, config.checkpoint, device)
     dataloaders = build_dataloaders(config)

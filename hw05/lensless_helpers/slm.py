@@ -2,8 +2,8 @@ import os
 import numpy as np
 from scipy.ndimage import rotate as rotate_func
 
+from lensless_helpers.devices import SLMParam
 from lensless_helpers.utils import get_ctypes
-from slm_controller.hardware import SLMParam, slm_devices
 
 
 try:
@@ -20,7 +20,6 @@ try:
     from waveprop.color import ColorSystem
     from waveprop.rs import angular_spectrum
     from waveprop.slm import get_centers
-    from waveprop.devices import SLMParam as SLMParam_wp
 
     waveprop_available = True
 except ImportError:
@@ -71,8 +70,8 @@ def get_programmable_mask(
     n_color_filter = np.prod(slm_param["color_filter"].shape[:2])
 
     # -- prepare color filter
-    if color_filter is None and SLMParam_wp.COLOR_FILTER in slm_param.keys():
-        color_filter = slm_param[SLMParam_wp.COLOR_FILTER]
+    if color_filter is None and SLMParam.COLOR_FILTER in slm_param.keys():
+        color_filter = slm_param[SLMParam.COLOR_FILTER]
         if isinstance(vals, torch.Tensor):
             color_filter = torch.tensor(color_filter).to(vals)
 
@@ -94,13 +93,13 @@ def get_programmable_mask(
     else:
         mask = np.zeros((n_color_filter,) + tuple(sensor.resolution), dtype=dtype)
         slm_vals_flat = vals.reshape(-1)
-    pixel_pitch = slm_param[SLMParam_wp.PITCH]
+    pixel_pitch = slm_param[SLMParam.PITCH]
     d1 = sensor.pitch
     if deadspace:
 
         centers = get_centers(n_active_slm_pixels, pixel_pitch=pixel_pitch)
 
-        _height_pixel, _width_pixel = (slm_param[SLMParam_wp.CELL_SIZE] / d1).astype(int)
+        _height_pixel, _width_pixel = (slm_param[SLMParam.CELL_SIZE] / d1).astype(int)
 
         for i, _center in enumerate(centers):
 
@@ -142,7 +141,7 @@ def get_programmable_mask(
                 ] = (vals[i, j] * color_filter_idx)
 
         # size of active pixels in pixels
-        n_active_dim = np.around(slm_param[SLMParam_wp.PITCH] * n_active_slm_pixels / d1).astype(
+        n_active_dim = np.around(slm_param[SLMParam.PITCH] * n_active_slm_pixels / d1).astype(
             int
         )
         # n_active_dim = np.around(slm_param[SLMParam_wp.CELL_SIZE] * n_active_slm_pixels / d1).astype(int)
