@@ -19,11 +19,12 @@ try:
     from waveprop.spherical import spherical_prop
     from waveprop.color import ColorSystem
     from waveprop.rs import angular_spectrum
-    from waveprop.slm import get_centers
 
     waveprop_available = True
-except ImportError:
+    waveprop_error = None
+except ImportError as error:
     waveprop_available = False
+    waveprop_error = error
 
 
 SUPPORTED_DEVICE = {
@@ -31,6 +32,16 @@ SUPPORTED_DEVICE = {
     "nokia": "~/slm-controller/examples/nokia_slm.py",
     "holoeye": "~/slm-controller/examples/holoeye_slm.py",
 }
+
+
+def get_centers(slm_dim, pixel_pitch):
+    slm_dim = np.asarray(slm_dim)
+    pixel_pitch = np.asarray(pixel_pitch)
+    centers_y = np.arange(slm_dim[0])[::-1, np.newaxis] * pixel_pitch[0]
+    centers_x = np.arange(slm_dim[1])[np.newaxis, ::-1] * pixel_pitch[1]
+    centers_y -= np.mean(centers_y)
+    centers_x -= np.mean(centers_x)
+    return np.array(np.meshgrid(centers_y, centers_x)).T.reshape(-1, 2)
 
 
 def get_programmable_mask(
@@ -57,8 +68,6 @@ def get_programmable_mask(
         Whether to include deadspace around mask. Default is True.
 
     """
-
-    assert waveprop_available
 
     use_torch = False
     if torch_available:
@@ -252,7 +261,8 @@ def get_intensity_psf(
         Color system. Not used if ``waveprop=False``.
 
     """
-    assert waveprop_available
+    if not waveprop_available:
+        raise RuntimeError("waveprop dependencies are not available") from waveprop_error
 
     if color_system is None:
         color_system = ColorSystem.rgb()
