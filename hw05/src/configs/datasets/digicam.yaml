@@ -5,7 +5,8 @@ train:
   download_if_missing: false
   save_psf: true
   offset: 0
-  limit: 100
+  limit: 8400
+  shuffle_seed: ${seed}
 
 validation:
   _target_: src.datasets.DigiCamDataset
@@ -13,5 +14,6 @@ validation:
   data_dir: data/digicam
   download_if_missing: false
   save_psf: true
-  offset: 100
+  offset: 8400
   limit: 100
+  shuffle_seed: ${seed}

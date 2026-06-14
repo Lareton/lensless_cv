@@ -48,15 +48,17 @@ class Trainer:
             self.train_epoch()
             result = self.validate()
             self.log_parameters()
-            self.save_checkpoint("last.pt")
 
             if result["psnr"] > self.best_psnr:
                 self.best_psnr = result["psnr"]
                 self.save_checkpoint("best.pt")
+            self.save_checkpoint("last.pt")
 
     def train_epoch(self):
         self.model.train()
         self.loss.train()
+        if hasattr(self.loss.lpips, "reset"):
+            self.loss.lpips.reset()
         self.optimizer.zero_grad(set_to_none=True)
         totals = {"loss": 0.0, "mse": 0.0, "lpips": 0.0}
         train_loader = self.dataloaders["train"]
@@ -134,7 +136,11 @@ class Trainer:
     def validate(self):
         self.model.eval()
         self.loss.eval()
-        tracker = ImageMetricTracker(self.metrics, self.device)
+        tracker = ImageMetricTracker(
+            self.metrics,
+            self.device,
+            lpips=self.loss.lpips,
+        )
         total_loss = 0.0
         batches = 0
         last_batch = None

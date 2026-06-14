@@ -3,10 +3,10 @@ from hydra.utils import instantiate
 
 
 class ImageMetricTracker:
-    def __init__(self, config, device):
+    def __init__(self, config, device, lpips=None):
         self.device = device
         self.ssim = instantiate(config.ssim).to(device)
-        self.lpips = instantiate(config.lpips).to(device)
+        self.lpips = instantiate(config.lpips).to(device) if lpips is None else lpips
         self.reset()
 
     def reset(self):
@@ -17,6 +17,10 @@ class ImageMetricTracker:
             "lpips": 0.0,
         }
         self.count = 0
+        if hasattr(self.ssim, "reset"):
+            self.ssim.reset()
+        if hasattr(self.lpips, "reset"):
+            self.lpips.reset()
 
     @torch.no_grad()
     def update(self, prediction, target):

@@ -3,12 +3,14 @@ import torch
 from src.utils.padding import center_crop, center_pad
 
 
-def prepare_psf(psf, shape):
+def prepare_psf(psf, shape, scale=1.0):
     if psf.ndim == 3:
         psf = psf.unsqueeze(0)
     if psf.ndim != 4:
         raise ValueError(f"Expected BCHW or CHW PSF, got {tuple(psf.shape)}")
 
+    psf = psf / psf.sum(dim=(-2, -1), keepdim=True).clamp_min(1e-12)
+    psf = psf * scale
     psf = center_pad(psf, shape)
     psf = torch.fft.ifftshift(psf, dim=(-2, -1))
     return torch.fft.rfft2(psf)

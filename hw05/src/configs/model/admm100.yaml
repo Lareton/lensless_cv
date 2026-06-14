@@ -4,4 +4,5 @@ mu: [1.0e-4, 1.0e-4, 1.0e-4]
 tau: 2.0e-4
 trainable: false
 work_scale: 2
+psf_scale: 4.0
 return_history: false

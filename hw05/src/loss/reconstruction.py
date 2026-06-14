@@ -26,10 +26,10 @@ class ReconstructionLoss(nn.Module):
         self.progress = min(max(float(progress), 0.0), 1.0)
 
     def forward(self, reconstruction, target_roi):
-        prediction = crop_roi(reconstruction).clamp(0, 1)
+        prediction = crop_roi(reconstruction)
         target = target_roi.clamp(0, 1)
         mse = F.mse_loss(prediction, target)
-        lpips = self.lpips(prediction, target).mean()
+        lpips = self.lpips(prediction.clamp(0, 1), target).mean()
         mse_weight = self._weight(self.mse_weight)
         lpips_weight = self._weight(self.lpips_weight)
 

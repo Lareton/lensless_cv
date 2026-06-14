@@ -152,6 +152,7 @@ class ADMM(nn.Module):
         mu=(1e-4, 1e-4, 1e-4),
         tau=2e-4,
         work_scale=2,
+        psf_scale=1.0,
         return_history=False,
         trainable=False,
     ):
@@ -163,13 +164,14 @@ class ADMM(nn.Module):
 
         self.iterations = iterations
         self.work_scale = work_scale
+        self.psf_scale = psf_scale
         self.return_history = return_history
         self.step = FixedADMMIteration(mu, tau)
 
     def forward(self, lensless, psf, **batch):
         sensor_shape = lensless.shape[-2:]
         work_shape = fft_shape(sensor_shape, self.work_scale)
-        psf_fft = prepare_psf(psf, work_shape)
+        psf_fft = prepare_psf(psf, work_shape, self.psf_scale)
         state = init_admm_state(lensless, work_shape)
 
         mu1, mu2, mu3 = self.step.mu.to(lensless)
@@ -213,6 +215,7 @@ class LeADMM(nn.Module):
         mu=(1e-4, 1e-4, 1e-4),
         tau=2e-4,
         work_scale=2,
+        psf_scale=1.0,
         gradient_checkpointing=True,
     ):
         super().__init__()
@@ -223,6 +226,7 @@ class LeADMM(nn.Module):
 
         self.iterations = iterations
         self.work_scale = work_scale
+        self.psf_scale = psf_scale
         self.gradient_checkpointing = gradient_checkpointing
         self.steps = nn.ModuleList(
             TrainableADMMIteration(mu, tau) for _ in range(iterations)
@@ -231,7 +235,7 @@ class LeADMM(nn.Module):
     def forward(self, lensless, psf, **batch):
         sensor_shape = lensless.shape[-2:]
         work_shape = fft_shape(sensor_shape, self.work_scale)
-        psf_fft = prepare_psf(psf, work_shape)
+        psf_fft = prepare_psf(psf, work_shape, self.psf_scale)
         state = init_admm_state(lensless, work_shape)
         padded_measurement = sensor_adjoint(lensless, work_shape)
         mask = sensor_mask(sensor_shape, work_shape, state.x)
@@ -255,7 +259,7 @@ class LeADMM(nn.Module):
                     mask,
                 )
 
-        reconstruction = sensor_crop(state.x, sensor_shape).clamp(0, 1)
+        reconstruction = sensor_crop(state.x, sensor_shape)
         return {"reconstruction": reconstruction}
 
     @staticmethod

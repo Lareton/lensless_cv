@@ -1,3 +1,5 @@
+import random
+
 from torch.utils.data import Dataset
 
 from src.datasets.download import REPO_ID, ensure_digicam, split_files
@@ -15,6 +17,7 @@ class DigiCamDataset(Dataset):
         psf_cache_dir=None,
         offset=0,
         limit=None,
+        shuffle_seed=None,
         repo_id=REPO_ID,
     ):
         from datasets import load_dataset
@@ -25,12 +28,11 @@ class DigiCamDataset(Dataset):
         files = [str(path) for path in split_files(self.root, split)]
         self.dataset = load_dataset("parquet", data_files={split: files}, split=split)
 
-        end = (
-            len(self.dataset)
-            if limit is None
-            else min(offset + limit, len(self.dataset))
-        )
-        self.indices = range(offset, end)
+        indices = list(range(len(self.dataset)))
+        if shuffle_seed is not None:
+            random.Random(shuffle_seed).shuffle(indices)
+        end = len(indices) if limit is None else min(offset + limit, len(indices))
+        self.indices = indices[offset:end]
         self.dataset = self.dataset.select(self.indices)
 
         cache_dir = psf_cache_dir or self.root / "psf"
