@@ -1,12 +1,18 @@
 _target_: src.model.ModularADMM
 
 preprocessor:
+  _target_: src.model.DRUNet
   channels: [32, 64, 128, 256]
+  blocks: 4
+  gradient_checkpointing: true
 
 inversion:
+  _target_: src.model.LeADMM
   iterations: 5
   mu: [1.0e-4, 1.0e-4, 1.0e-4]
   tau: 2.0e-4
-  trainable: true
+  work_scale: 2
+  psf_scale: 4.0
+  gradient_checkpointing: true
 
 postprocessor: null

@@ -7,6 +7,8 @@ from src.model.admm import (
     data_fidelity,
     init_admm_state,
 )
+from src.model.drunet import DRUNet, ResidualBlock
+from src.model.modular import ModularADMM
 from src.model.operators import (
     convolve_adjoint_fft,
     convolve_fft,
