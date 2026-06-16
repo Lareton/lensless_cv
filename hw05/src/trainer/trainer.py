@@ -5,6 +5,10 @@ from hydra.utils import instantiate
 
 from src.datasets.preprocessing import crop_roi
 from src.metrics import ImageMetricTracker
+from src.utils.checkpoint import (
+    load_checkpoint as load_torch_checkpoint,
+    to_plain_container,
+)
 from src.utils.images import save_qualitative_grid
 
 
@@ -211,21 +215,19 @@ class Trainer:
 
     def save_checkpoint(self, name):
         path = self.save_dir / name
-        torch.save(
-            {
-                "state_dict": self.model.state_dict(),
-                "optimizer_state_dict": self.optimizer.state_dict(),
-                "scaler_state_dict": self.scaler.state_dict(),
-                "epoch": self.epoch + 1,
-                "global_step": self.global_step,
-                "best_psnr": self.best_psnr,
-            },
-            path,
-        )
+        checkpoint = {
+            "state_dict": self.model.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "scaler_state_dict": self.scaler.state_dict(),
+            "epoch": self.epoch + 1,
+            "global_step": self.global_step,
+            "best_psnr": self.best_psnr,
+        }
+        torch.save(to_plain_container(checkpoint), path)
         self.logger.log_checkpoint(path)
 
     def load_checkpoint(self, path):
-        checkpoint = torch.load(path, map_location=self.device, weights_only=True)
+        checkpoint = load_torch_checkpoint(path, map_location=self.device)
         self.model.load_state_dict(checkpoint["state_dict"])
         self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         self.scaler.load_state_dict(checkpoint["scaler_state_dict"])

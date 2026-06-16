@@ -193,12 +193,13 @@ def get_device(device):
 
 
 def build_model(config, checkpoint, device):
-    import torch
     from hydra.utils import instantiate
+
+    from src.utils.checkpoint import load_checkpoint
 
     model = instantiate(config).to(device)
     if checkpoint is not None:
-        checkpoint = torch.load(checkpoint, map_location=device, weights_only=True)
+        checkpoint = load_checkpoint(checkpoint, map_location=device)
         state_dict = checkpoint.get(
             "state_dict",
             checkpoint.get("model_state_dict", checkpoint),
