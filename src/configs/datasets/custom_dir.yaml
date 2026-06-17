@@ -1,0 +1,5 @@
+test:
+  _target_: src.datasets.CustomDirDataset
+  data_dir: null
+  save_psf: true
+  limit: null

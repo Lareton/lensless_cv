@@ -135,3 +135,8 @@ hw05/multirun/
 hw05/saved/
 hw05/tests/
 hw05/wandb/
+data/
+outputs/
+multirun/
+saved/
+wandb/

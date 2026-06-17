@@ -1,7 +1,0 @@
-_target_: src.model.LeADMM
-iterations: 20
-mu: [1.0e-4, 1.0e-4, 1.0e-4]
-tau: 2.0e-4
-work_scale: 2
-psf_scale: 4.0
-gradient_checkpointing: true

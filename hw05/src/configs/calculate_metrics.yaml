@@ -1,8 +1,0 @@
-defaults:
-  - metrics: image
-  - writer: comet
-  - _self_
-
-ground_truth_dir: null
-reconstruction_dir: null
-device: auto

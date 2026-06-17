@@ -1,6 +1,0 @@
-_target_: src.logger.CometLogger
-project_name: lensless-reconstruction
-workspace: null
-experiment_name: ${hydra:runtime.choices.model}
-enabled: true
-log_checkpoints: true

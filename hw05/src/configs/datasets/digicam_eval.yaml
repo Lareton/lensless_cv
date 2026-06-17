@@ -1,7 +1,0 @@
-test:
-  _target_: src.datasets.DigiCamDataset
-  split: test
-  data_dir: data/digicam
-  download_if_missing: false
-  save_psf: true
-  limit: null
