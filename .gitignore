@@ -139,4 +139,5 @@ data/
 outputs/
 multirun/
 saved/
+tests/
 wandb/
