@@ -40,6 +40,7 @@ training loss, validation loss и итоговые test/benchmark метрики
 
 ## Links
 
+- Demo: [demo.ipynb](demo.ipynb)
 - Веса моделей: [Lareton/lensless_models](https://huggingface.co/Lareton/lensless_models/tree/main)
 - Comet ML project: [lensless-reconstruction](https://www.comet.com/iltyakov-nik/lensless-reconstruction)
 - Датасет: [DigiCam-Mirflickr-MultiMask-10K](https://huggingface.co/datasets/bezzam/DigiCam-Mirflickr-MultiMask-10K)
@@ -104,7 +105,7 @@ data/digicam
 Скачать веса с Hugging Face:
 
 ```bash
-huggingface-cli download Lareton/lensless_models \
+hf download Lareton/lensless_models \
   --local-dir saved
 ```
 
