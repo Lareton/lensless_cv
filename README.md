@@ -4,12 +4,22 @@
 
 Выполнил: Ильтяков Никита
 
+## Links
+
+- Demo: [demo.ipynb](demo.ipynb)
+- Отчёт в Comet ML: [Lensless Reconstruction Report](https://www.comet.com/iltyakov-nik/lensless-reconstruction/reports/VSkWqNikOc4mW5P7YOTvfnff8)
+- Веса моделей: [Lareton/lensless_models](https://huggingface.co/Lareton/lensless_models/tree/main)
+- Comet ML project: [lensless-reconstruction](https://www.comet.com/iltyakov-nik/lensless-reconstruction)
+- Датасет: [DigiCam-Mirflickr-MultiMask-10K](https://huggingface.co/datasets/bezzam/DigiCam-Mirflickr-MultiMask-10K)
+- Основная статья: [Towards Robust and Generalizable Lensless Imaging with Modular Learned Reconstruction](https://arxiv.org/abs/2502.01102)
+- LeADMM статья: [Learned reconstructions for practical mask-based lensless imaging](https://arxiv.org/abs/1908.11502)
+
+
 ## Results
 
-`inference ms/image` — среднее wall-clock время на одно тестовое изображение
-для полного запуска `inference.py`: длительность Comet run делится на 1500
-тестовых примеров. `benchmark ms/image` измеряется скриптом `benchmark.py`
-как чистая скорость инференса модели.
+`inference ms/image` — среднее  время на одно тестовое изображение
+
+`benchmark ms/image` -  скорость инференса модели (без загрузки логирования и тд)
 
 | Model | PSNR ↑ | SSIM ↑ | LPIPS ↓ | MSE ↓ | Inference ms/image ↓ | Benchmark ms/image ↓ | Train run | Test run | Benchmark run |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
@@ -38,16 +48,6 @@
 
 Также логируются реконструкции, ground truth, lensless measurements, PSF,
 training loss, validation loss и итоговые test/benchmark метрики в Comet ML.
-
-## Links
-
-- Demo: [demo.ipynb](demo.ipynb)
-- Отчёт в Comet ML: [Lensless Reconstruction Report](https://www.comet.com/iltyakov-nik/lensless-reconstruction/reports/VSkWqNikOc4mW5P7YOTvfnff8)
-- Веса моделей: [Lareton/lensless_models](https://huggingface.co/Lareton/lensless_models/tree/main)
-- Comet ML project: [lensless-reconstruction](https://www.comet.com/iltyakov-nik/lensless-reconstruction)
-- Датасет: [DigiCam-Mirflickr-MultiMask-10K](https://huggingface.co/datasets/bezzam/DigiCam-Mirflickr-MultiMask-10K)
-- Основная статья: [Towards Robust and Generalizable Lensless Imaging with Modular Learned Reconstruction](https://arxiv.org/abs/2502.01102)
-- LeADMM статья: [Learned reconstructions for practical mask-based lensless imaging](https://arxiv.org/abs/1908.11502)
 
 ## Installation
 
