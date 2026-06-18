@@ -6,9 +6,10 @@
 
 ## Results
 
-`inference ms/image` is the average wall-clock time per test image from the full
-`inference.py` run: Comet run duration divided by 1500 test samples.
-`benchmark ms/image` is measured by `benchmark.py` as pure model inference speed.
+`inference ms/image` — среднее wall-clock время на одно тестовое изображение
+для полного запуска `inference.py`: длительность Comet run делится на 1500
+тестовых примеров. `benchmark ms/image` измеряется скриптом `benchmark.py`
+как чистая скорость инференса модели.
 
 | Model | PSNR ↑ | SSIM ↑ | LPIPS ↓ | MSE ↓ | Inference ms/image ↓ | Benchmark ms/image ↓ | Train run | Test run | Benchmark run |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
@@ -41,6 +42,7 @@ training loss, validation loss и итоговые test/benchmark метрики
 ## Links
 
 - Demo: [demo.ipynb](demo.ipynb)
+- Отчёт в Comet ML: [Lensless Reconstruction Report](https://www.comet.com/iltyakov-nik/lensless-reconstruction/reports/VSkWqNikOc4mW5P7YOTvfnff8)
 - Веса моделей: [Lareton/lensless_models](https://huggingface.co/Lareton/lensless_models/tree/main)
 - Comet ML project: [lensless-reconstruction](https://www.comet.com/iltyakov-nik/lensless-reconstruction)
 - Датасет: [DigiCam-Mirflickr-MultiMask-10K](https://huggingface.co/datasets/bezzam/DigiCam-Mirflickr-MultiMask-10K)
